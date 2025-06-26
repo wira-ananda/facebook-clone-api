@@ -1,26 +1,24 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\StoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
-
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
+});
+
+Route::prefix('stories')->group(function () {
+    Route::post('/', [StoryController::class, 'store']); // POST /api/story/
+    Route::get('/', [StoryController::class, 'index']); // GET /api/story/
+    Route::get('/{id}', [StoryController::class, 'show']); // GET /api/story/{id}
+});
+
+Route::prefix('posts')->group(function () {
+    Route::post('/', [PostController::class, 'store']); // POST /api/story/
+    Route::get('/', [PostController::class, 'getAll']); // GET /api/story/
+    Route::get('/{id}', [PostController::class, 'getId']); // GET /api/story/{id}
 });
